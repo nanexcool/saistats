@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import eth from './web3';
 import Main from './Main'
-import daiLogo from './dai.svg'
+import saiLogo from './sai.svg'
 const ethers = require('ethers')
 
 const jsonFetch = url => fetch(url).then(res => res.json())
@@ -200,7 +200,7 @@ class App extends Component {
       <section className="section">
         <div className="container has-text-centered">
           <figure className="image is-128x128 container">
-            <img src={daiLogo} alt="Dai Logo" />
+            <img src={saiLogo} alt="Sai Logo" />
           </figure>
           <br />
           <progress className="progress is-small is-primary" max="100">15%</progress>
