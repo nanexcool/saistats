@@ -6,7 +6,7 @@ const ethers = require('ethers')
 
 const jsonFetch = url => fetch(url).then(res => res.json())
 const etherscanSupply = async () => {
-  const json = await jsonFetch('https://api.etherscan.io/api?action=ethsupply&module=stats&apikey=zomg')
+  const json = await jsonFetch('https://api.etherscan.io/api?action=ethsupply&module=stats&apikey=N5TICDBVG4MHDS7CGPJ9MHXRYC1Y84963N')
   return ethers.utils.formatEther(json.result)
 }
 
