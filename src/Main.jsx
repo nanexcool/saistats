@@ -87,12 +87,6 @@ const Main = (props) => {
             </div>
             <div className="column">
               <div className="box has-text-centered">
-                <h3 className="title" title={mkrUsd}>{formatCurr.format(mkrUsd)}</h3>
-                <p className="subtitle is-size-4">MKR Price</p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="box has-text-centered">
                 <h3 className="title" title={fee}>{formatAmount.format(fee)} %</h3>
                 <p className="subtitle is-size-4">Stability Fee</p>
               </div>

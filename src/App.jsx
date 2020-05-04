@@ -172,7 +172,7 @@ class App extends Component {
   }
 
   doMkrUsd = async () => {
-    let value = await mkrUsd.read()
+    let [value, zomg] = await mkrUsd.peek()
     return ethers.utils.formatEther(value)
   }
 
