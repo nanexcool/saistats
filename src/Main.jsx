@@ -12,12 +12,25 @@ const formatAmount = new Intl.NumberFormat('en-US', {
 })
 
 const Main = (props) => {
-  const { daiSupply, cap, ethSupply, wethSupply, fee, pethSupply, ethUsd, mkrUsd, lockedPeth, lockedWeth, gemPit, mkrRoi } = props
+  const { daiSupply, cap, ethSupply, wethSupply, fee, ethUsd, lockedWeth, fix, off } = props
   document.title = `Sai Stats - ${formatAmount.format(daiSupply)}`
   return (
     <div>
       <section className="section">
         <div className="container">
+        <div className="columns">
+            <div className="column">
+              <div className="box has-text-centered">
+                <h3 className="title">Single Collateral Dai is shutting down today!</h3>
+                {props.off &&
+                  <p className="subtitle is-size-4">Sai was shutdown at ETH/USD {formatCurr.format(fix)}</p>
+                }
+                {props.off ||
+                  <p className="subtitle is-size-4">Waiting for shutdown...</p>
+                }
+              </div>
+            </div>
+          </div>
           <div className="columns">
             <div className="column">
               <div className="box has-text-centered">
@@ -91,51 +104,8 @@ const Main = (props) => {
                 <p className="subtitle is-size-4">Stability Fee</p>
               </div>
             </div>
-            <div className="column">
-              <div className="box has-text-centered">
-                <h3 className="title">{formatAmount.format(mkrRoi)} %</h3>
-                <p className="subtitle is-size-4">MKR ROI</p>
-              </div>
-            </div>
+
           </div>
-          <div className="columns">
-            <div className="column">
-              <div className="box has-text-centered">
-                <h3 className="title" title={gemPit}>{formatAmount.format(gemPit)}</h3>
-                <p className="subtitle is-size-4">MKR in Burner</p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="box has-text-centered">
-                <h3 className="title" title={gemPit * mkrUsd}>{formatCurr.format(gemPit * mkrUsd)}</h3>
-                <p className="subtitle is-size-4">Burner in USD</p>
-              </div>
-            </div>
-          </div>
-          {/* <div className="columns">
-            <div className="column">
-              <div className="box has-text-centered">
-                <p className="">
-                  Current block: {props.blockNumber}
-                </p>
-              </div>
-            </div>
-          </div> */}
-          {/* <p>{formatAmount.format(ethUsd * lockedWeth / daiSupply * 100)}</p> */}
-          {/* <div className="columns">
-              <div className="column">
-                <p>ethUsd: {formatCurr.format(ethUsd)}</p>
-                <p>value: {formatCurr.format(lockedWeth * ethUsd)}</p>
-                <p>wethSupply: {formatAmount.format(wethSupply)}</p>
-                <p>% {lockedWeth / wethSupply * 100}</p>
-                <p>pethSupply: {formatAmount.format(pethSupply)}</p>
-                <p>lockedPeth: {formatAmount.format(lockedPeth)}</p>
-                <p>% {lockedWeth / ethSupply * 100}</p>
-                <p>PETH/ETH Ratio: {lockedWeth / pethSupply}</p>
-                <p>Current block: {this.state.blockNumber}</p>
-                <p><button onClick={this.doLockedWeth}>Zomg</button></p>
-              </div>
-            </div> */}
         </div>
       </section>
     </div>

@@ -17,6 +17,7 @@ const addresses = {
   pip: '0x729D19f657BD0614b4985Cf1D82531c67569197B',
   pep: '0x99041F808D598B782D5a3e498681C2452A31da08',
   tub: '0x448a5065aeBB8E423F0896E6c5D525C040f59af3',
+  top: '0x9b0ccf7C8994E19F39b2B4CF708e0A7DF65fA8a3',
   peth: '0xf53AD2c6851052A81B42133467480961B2321C09',
   weth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 }
@@ -25,13 +26,14 @@ window.addresses = addresses
 const tokenAbi = require('./abi/token.json')
 const valueAbi = require('./abi/value.json')
 const tubAbi = require('./abi/tub.json')
+const topAbi = require('./abi/top.json')
 const dai = new ethers.Contract(addresses.dai, tokenAbi, eth)
 const peth = new ethers.Contract(addresses.peth, tokenAbi, eth)
 const mkr = new ethers.Contract(addresses.mkr, tokenAbi, eth)
 const weth = new ethers.Contract(addresses.weth, tokenAbi, eth)
 const ethUsd = new ethers.Contract(addresses.pip, valueAbi, eth)
-const mkrUsd = new ethers.Contract(addresses.pep, valueAbi, eth)
 const tub = new ethers.Contract(addresses.tub, tubAbi, eth)
+const top = new ethers.Contract(addresses.top, topAbi, eth)
 window.dai = dai
 window.weth = weth
 window.tub = tub
@@ -52,6 +54,8 @@ class App extends Component {
     mkrRoi: null,
     blockNumber: null,
     blockHash: null,
+    fix: null,
+    off: null
   }
 
   isLoaded = () => {
@@ -59,9 +63,7 @@ class App extends Component {
       this.state.ethSupply !== null &&
       this.state.cap !== null &&
       this.state.lockedWeth !== null &&
-      this.state.ethUsd !== null &&
-      this.state.gemPit !== null &&
-      this.state.mkrUsd !== null
+      this.state.ethUsd !== null
   }
 
   componentDidMount() {
@@ -104,12 +106,12 @@ class App extends Component {
       this.doEthSupply(),
       this.doLockedWeth(),
       this.doWethSupply(),
-      // this.doPethSupply(),
-      // this.doLockedPeth(),
       this.doEthUsd(),
-      this.doMkrUsd(),
-      this.doGemPit(),
+      // this.doMkrUsd(),
+      // this.doGemPit(),
       this.doTubData(),
+      ethers.utils.formatEther((await top.fix())),
+      (await tub.off())
     ])
     this.setState({
       daiSupply: all[0],
@@ -119,8 +121,10 @@ class App extends Component {
       wethSupply: all[4],
       ethUsd: all[5],
       mkrUsd: all[6],
-      gemPit: all[7],
-      fee: all[8],
+      gemPit: 0,
+      fee: all[6],
+      fix: all[7],
+      off: all[8]
     })
     const mkrRoi = await this.doMkrRoi()
     this.setState({ mkrRoi })
@@ -171,10 +175,10 @@ class App extends Component {
     return ethers.utils.formatEther(value)
   }
 
-  doMkrUsd = async () => {
-    let [value, zomg] = await mkrUsd.peek()
-    return ethers.utils.formatEther(value)
-  }
+  // doMkrUsd = async () => {
+  //   let [value, zomg] = await mkrUsd.peek()
+  //   return ethers.utils.formatEther(value)
+  // }
 
   doTubData = async () => {
     let fee = await tub.fee()
